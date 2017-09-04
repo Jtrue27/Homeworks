@@ -1,0 +1,77 @@
+INCLUDE Irvine32.inc
+.data
+start Dword 1
+chars Byte "H","A","C","E","B","D","F","G"
+links Dword 0,4,5,6,2,3,7,0
+charscopys Byte  lengthof chars DUP(0)
+linkscopys BYte  lengthof chars DUP(0)
+
+.code
+main PROC
+   ;先印一次原本順序char
+	mov esi ,offset chars
+	mov ecx,lengthof chars
+	call dumpmem
+	;取址
+	mov esi,offset chars
+	mov edi,offset charscopys
+	;呼叫procedure
+	call correct 
+   ;印出變更後的
+   mov esi,offset charscopys
+   mov ecx,lengthof charscopys
+   mov ebx,Type charscopys
+   call Dumpmem
+
+
+    ;先印一次原本順序links
+	mov esi ,offset links
+	mov ecx,lengthof links
+	call dumpmem
+
+   mov esi,offset links
+   mov edi,offset linkscopys
+   call correct
+
+    ;印出變更後的
+   mov esi,offset linkscopys
+   mov ecx,lengthof linkscopys
+   mov ebx,Type linkscopys
+   call Dumpmem
+
+   call waitmsg
+	exit
+
+main ENDP
+
+correct PROC
+
+mov eax,[esi+1]
+mov [edi],eax
+inc edi
+mov eax,[esi+4]
+mov [edi],eax
+inc edi
+mov eax,[esi+2]
+mov [edi],eax
+inc edi
+mov eax,[esi+5]
+mov [edi],eax
+inc edi
+mov eax,[esi+3]
+mov [edi],eax
+inc edi
+mov eax,[esi+6]
+mov [edi],eax
+inc edi
+mov eax,[esi+7]
+mov [edi],eax
+inc edi
+mov eax,[esi+0]
+mov [edi],eax
+
+
+ ret
+correct Endp
+
+END main
